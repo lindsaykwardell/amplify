@@ -1,11 +1,13 @@
 <template>
   <Authenticator v-slot="{ user, signOut }">
-    
+    <RedirectTo v-if="user" to="/dashboard" />
   </Authenticator>
 </template>
 
 <script setup lang="ts">
 import { Authenticator } from "@aws-amplify/ui-vue";
-import { getCurrentUser } from "aws-amplify/auth";
-import { onMounted } from "vue";
+
+definePageMeta({
+  middleware: ["guest"],
+});
 </script>
