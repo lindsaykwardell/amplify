@@ -12,4 +12,5 @@ export default defineNuxtConfig({
   vite: {
     plugins: [elmPlugin()],
   },
+  modules: ["@pinia/nuxt"],
 });

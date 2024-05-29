@@ -1,4 +1,4 @@
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -12,6 +12,57 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization((allow) => [allow.guest()]),
+  Game: a
+    .model({
+      datePlayed: a.date(),
+      profession: a.enum(["Banker", "Carpenter", "Farmer"]),
+      startMonth: a.enum(["March", "April", "May", "June", "July"]),
+      endMonth: a.enum([
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ]),
+      endYear: a.integer(),
+      party: a.hasMany("PartyMember", "gameId"),
+      wagon: a.integer(),
+      oxen: a.integer(),
+      spareParts: a.integer(),
+      setsOfClothing: a.integer(),
+      bullets: a.integer(),
+      money: a.integer(),
+    })
+    .authorization((allow) => [allow.guest()]),
+  PartyMember: a
+    .model({
+      gameId: a.id(),
+      name: a.string(),
+      survived: a.boolean(),
+      game: a.belongsTo("Game", "gameId"),
+    })
+    .authorization((allow) => [allow.guest()]),
+  Settings: a
+    .model({
+      locationId: a.id(),
+      location: a.belongsTo("Location", "locationId"),
+    })
+    .authorization((allow) => [allow.owner()]),
+  Location: a
+    .model({
+      name: a.string(),
+      slug: a.string(),
+      image: a.string(),
+      settings: a.hasMany("Settings", "locationId"),
+    })
+    .authorization((allow) => [allow.guest(), allow.authenticated()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -19,7 +70,7 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'iam',
+    defaultAuthorizationMode: "userPool",
   },
 });
 
