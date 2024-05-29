@@ -27,3 +27,6 @@ logs
 .amplify
 amplify_outputs*
 amplifyconfiguration*
+
+# elm
+elm-stuff

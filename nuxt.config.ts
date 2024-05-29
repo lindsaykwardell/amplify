@@ -1,4 +1,15 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import elmPlugin from "vite-plugin-elm";
+
 export default defineNuxtConfig({
-  devtools: { enabled: true }
-})
+  devtools: { enabled: true },
+  css: ["~/assets/css/main.css"],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+  vite: {
+    plugins: [elmPlugin()],
+  },
+});
