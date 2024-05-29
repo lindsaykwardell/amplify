@@ -9,7 +9,12 @@ export default {
     "./error.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        lato: ["Lato", "sans-serif"],
+        raleway: ["Raleway", "sans-serif"],
+      }
+    },
   },
   plugins: [],
 };
