@@ -53,16 +53,37 @@ const schema = a.schema({
     .model({
       locationId: a.id(),
       location: a.belongsTo("Location", "locationId"),
+      avatarUrl: a.string(),
+      posts: a.hasMany("Post", "settingsId"),
     })
-    .authorization((allow) => [allow.owner()]),
+    .authorization((allow) => [
+      allow.guest().to(["read"]),
+      allow.authenticated().to(["read"]),
+      allow.owner(),
+    ]),
   Location: a
     .model({
       name: a.string(),
       slug: a.string(),
       image: a.string(),
       settings: a.hasMany("Settings", "locationId"),
+      posts: a.hasMany("Post", "locationId"),
     })
     .authorization((allow) => [allow.guest(), allow.authenticated()]),
+  Post: a
+    .model({
+      content: a.string(),
+      locationId: a.id(),
+      location: a.belongsTo("Location", "locationId"),
+      settingsId: a.id(),
+      settings: a.belongsTo("Settings", "settingsId"),
+      event: a.string(),
+    })
+    .authorization((allow) => [
+      allow.guest().to(["read"]),
+      allow.authenticated().to(["read"]),
+      allow.owner(),
+    ]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
